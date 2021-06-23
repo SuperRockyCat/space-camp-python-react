@@ -13,7 +13,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - .:/app
+      - ./src:/app/src
+      - ./public:/app/public
     networks: 
       - app-network
 networks: 
