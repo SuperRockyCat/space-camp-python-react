@@ -9,7 +9,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin infinite 30s linear;
   }
 }
 
@@ -35,4 +35,25 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.messages {
+  overflow: auto;
+  max-height: 280px;
+  min-width: 600px;
+  text-align: left;
+}
+
+.messages > p {
+  font-family: monospace;
+  font-size: xx-large;
+}
+
+.userId {
+  background-color: red;
+  font: white;
+}
+
+.variation {
+  background-color: green;
 }
