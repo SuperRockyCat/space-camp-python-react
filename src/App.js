@@ -41,10 +41,10 @@ const App = () => {
         </h1>
         <img src={toggle} className="App-logo" alt="logo" />
       <div className="messages">
-        {messages.map(msg => (<p>User ID: <span className="userId">{msg.split("-")[0]}</span> <br /> Variation: <span className="variation">{msg.split("-")[1]}</span></p>))}
+        {messages.map(msg => (<p>Key: <span className="userId">{msg.split("-")[0]}</span> <br /> Variation: <span className="variation">{msg.split("-")[1]}</span></p>))}
       </div>
       <p>
-        <input type="text" placeholder="Enter User ID" onChange={onChange} value={message} />
+        <input type="text" placeholder="Enter Key" onChange={onChange} value={message} />
         <input type="button" onClick={onClick} value="Send"/>
       </p>
       </header>

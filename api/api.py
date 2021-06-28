@@ -20,25 +20,28 @@ ldclient.set_config(Config(ld_sdk_key))
 ld_client = ldclient.get()
 
 
-###### LaunchDarkly User Context ######
-user = {
+###### LaunchDarkly Initialization Context ######
+init_context = {
     "key" : "test",
-    "firstName" : "Space",
-    "lastName" : "Camp",
-    "email" : "spacecamp@launchdarkly.com"
+    "ip" : "192.168.1.1",
+    "country" : "USA",
+    "custom" : {
+        "group" : "beta",
+        "serviceType" : "staging"
+    }
 }
 
 
 ###### LaunchDarkly Feature Flag Goes HERE ######
-def get_variation(user={"key":"test"}):
-    return ld_client.variation("my-feature-flag", user, "Not Set Up") # Add your flag here!
+def get_variation(init_context={"key":"test"}):
+    return ld_client.variation("flag-goes-here", init_context, "Not Set Up") # Add your flag here!
 
 
 
 ###### Websockets for updates #######
 @socketio.on('connect')
 def connected():
-    send("%s-%s" % (user['key'], get_variation(user)), broadcast=True)
+    send("%s-%s" % (init_context['key'], get_variation(init_context)), broadcast=True)
 
 @socketio.on('disconnect')
 def disconnected():
@@ -47,7 +50,7 @@ def disconnected():
 @socketio.on("message")
 def handleMessage(msg): 
     print("handling message")
-    user.update({"key": msg})
+    init_context.update({"key": msg})
 
 
 
@@ -78,18 +81,18 @@ class FlagPoller(object):
         thread.start()                                  
 
     def run(self):
-        current_variation = get_variation(user)
-        current_user_key = user['key']
+        current_variation = get_variation(init_context)
+        current_key = init_context['key']
         print("CURRENT VARIATION IS %s" % current_variation)
 
         while True:
-            if current_variation != get_variation(user) or current_user_key != user['key']:
+            if current_variation != get_variation(init_context) or current_key != init_context['key']:
                 print("variation changed")
                 print("current_variation: %s" % current_variation)
-                print("get_variation(user): %s" % get_variation(user))
-                socketio.send("%s-%s" % (user['key'], get_variation(user)), broadcast=True)
-                current_variation = get_variation(user)
-                current_user_key = user['key']
+                print("get_variation(init_context): %s" % get_variation(init_context))
+                socketio.send("%s-%s" % (init_context['key'], get_variation(init_context)), broadcast=True)
+                current_variation = get_variation(init_context)
+                current_key = init_context['key']
             else:
                 pass
             time.sleep(self.interval)
