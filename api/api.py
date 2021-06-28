@@ -15,7 +15,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 app.host = 'localhost'
 
 ###### LaunchDarkly SDK Key Goes HERE ######
-ld_sdk_key = "sdk-204e704c-35b7-4b99-95e3-522a58d5151c"
+ld_sdk_key = ""
 ldclient.set_config(Config(ld_sdk_key))
 ld_client = ldclient.get()
 
@@ -34,7 +34,7 @@ init_context = {
 
 ###### LaunchDarkly Feature Flag Goes HERE ######
 def get_variation(init_context={"key":"test"}):
-    return ld_client.variation("stringFlag", init_context, "Not Set Up") # Add your flag here!
+    return ld_client.variation("flag-goes-here", init_context, "Not Set Up") # Add your flag here!
 
 
 
