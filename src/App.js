@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import io from "socket.io-client";
 import toggle from './toggle.png';
 import './App.css';
@@ -33,6 +33,12 @@ const App = () => {
     setMessage("");
   };
 
+  const AlwaysScrollToBottom = () => {
+    const elementRef = useRef();
+    useEffect(() => elementRef.current.scrollIntoView());
+    return <div ref={elementRef} />;
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -41,7 +47,8 @@ const App = () => {
         </h1>
         <img src={toggle} className="App-logo" alt="logo" />
       <div className="messages">
-        {messages.map(msg => (<p>Key: <span className="userId">{msg.split("-")[0]}</span> <br /> Variation: <span className="variation">{msg.split("-")[1]}</span></p>))}
+        {messages.map(msg => (<p>Key: <span className="uniqueKey">{msg.split("-")[0]}</span> <br /> Variation: <span className="variation">{msg.split("-")[1]}</span></p>))}
+        <AlwaysScrollToBottom />
       </div>
       <p>
         <input type="text" placeholder="Enter Key" onChange={onChange} value={message} />
