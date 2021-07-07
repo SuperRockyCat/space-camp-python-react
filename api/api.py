@@ -22,12 +22,13 @@ ld_client = ldclient.get()
 
 ###### LaunchDarkly Initialization Context ######
 astronaut = {
-    "key" : "toggle",
-    "ip" : "192.168.1.1",
+    "key" : "Toggle",
     "country" : "USA",
+    "email" : "Toggle_the_astronaut@nasa.gov",
     "custom" : {
-        "group" : "beta",
-        "serviceType" : "staging"
+        "spaceStation" : "ISS",
+        "employer" : "NASA",
+        "visitedPlanets": ["earth", "mars"]
     }
 }
 
