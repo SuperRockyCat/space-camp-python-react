@@ -7,7 +7,7 @@ let endpoint = 'http://localhost:5000/';
 let socket = io.connect(endpoint);
 
 const App = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(["-"]);
   const [message, setMessage] = useState("");
 
   socket.on("message", msg => {
@@ -45,9 +45,13 @@ const App = () => {
         <h1>
           Welcome to Space Camp!
         </h1>
-        <img src={toggle} className="App-logo" alt="logo" />
+        <div className={messages[messages.length - 1].split("-")[1]}>
+          <div className="App-logo">
+            <img src={toggle} alt="logo" />
+          </div>
+        </div>
       <div className="messages">
-        {messages.map(msg => (<p key={new Date().getTime() * Math.random()}>Key: <span className="uniqueKey">{msg.split("-")[0]}</span> <br /> Variation: <span className="variation">{msg.split("-")[1]}</span></p>))}
+        {messages.map(msg => (msg.split("-")[0] === "" ? "" : <p key={new Date().getTime() * Math.random()}>This is <span className="uniqueKey">{msg.split("-")[0]}</span> and they're flying to <span className={msg.split("-")[1]+"-text"}>{msg.split("-")[1]}</span></p>))}
         <AlwaysScrollToBottom />
       </div>
       <p>

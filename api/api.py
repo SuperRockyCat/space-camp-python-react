@@ -21,8 +21,8 @@ ld_client = ldclient.get()
 
 
 ###### LaunchDarkly Initialization Context ######
-init_context = {
-    "key" : "test",
+astronaut = {
+    "key" : "toggle",
     "ip" : "192.168.1.1",
     "country" : "USA",
     "custom" : {
@@ -33,15 +33,15 @@ init_context = {
 
 
 ###### LaunchDarkly Feature Flag Goes HERE ######
-def get_variation(init_context={"key":"test"}):
-    return ld_client.variation("flag-goes-here", init_context, "Not Set Up") # Add your flag here!
+def get_variation(astronaut={"key":"test"}):
+    return ld_client.variation("FEATURE-FLAG-HERE", astronaut, "somewhere") # Add your flag here!
 
 
 
 ###### Websockets for updates #######
 @socketio.on('connect')
 def connected():
-    send("%s-%s" % (init_context['key'], get_variation(init_context)), broadcast=True)
+    send("%s-%s" % (astronaut['key'], get_variation(astronaut)), broadcast=True)
 
 @socketio.on('disconnect')
 def disconnected():
@@ -50,7 +50,7 @@ def disconnected():
 @socketio.on("message")
 def handleMessage(msg): 
     print("handling message")
-    init_context.update({"key": msg})
+    astronaut.update({"key": msg})
 
 
 
@@ -81,18 +81,18 @@ class FlagPoller(object):
         thread.start()                                  
 
     def run(self):
-        current_variation = get_variation(init_context)
-        current_key = init_context['key']
+        current_variation = get_variation(astronaut)
+        current_key = astronaut['key']
         print("CURRENT VARIATION IS %s" % current_variation)
 
         while True:
-            if current_variation != get_variation(init_context) or current_key != init_context['key']:
+            if current_variation != get_variation(astronaut) or current_key != astronaut['key']:
                 print("variation changed")
                 print("current_variation: %s" % current_variation)
-                print("get_variation(init_context): %s" % get_variation(init_context))
-                socketio.send("%s-%s" % (init_context['key'], get_variation(init_context)), broadcast=True)
-                current_variation = get_variation(init_context)
-                current_key = init_context['key']
+                print("get_variation(astronaut): %s" % get_variation(astronaut))
+                socketio.send("%s-%s" % (astronaut['key'], get_variation(astronaut)), broadcast=True)
+                current_variation = get_variation(astronaut)
+                current_key = astronaut['key']
             else:
                 pass
             time.sleep(self.interval)
