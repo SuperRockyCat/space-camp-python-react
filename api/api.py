@@ -25,7 +25,7 @@ astronaut = {
     "key" : "Toggle",
     "country" : "USA",
     "email" : "Toggle_the_astronaut@nasa.gov",
-    "privateAttributes" : ["email"],
+    "privateAttributeNames" : ["email"],
     "custom" : {
         "spaceStation" : "ISS",
         "employer" : "NASA",
