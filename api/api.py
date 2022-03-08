@@ -15,7 +15,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 app.host = 'localhost'
 
 ###### LaunchDarkly SDK Key Goes HERE ######
-ld_sdk_key = ""
+ld_sdk_key = "SDK_KEY_HERE"
 ldclient.set_config(Config(ld_sdk_key))
 ld_client = ldclient.get()
 

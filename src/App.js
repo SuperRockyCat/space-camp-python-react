@@ -3,7 +3,7 @@ import io from "socket.io-client";
 import toggle from './toggle.png';
 import './App.css';
 
-let endpoint = 'http://localhost:5000/';
+let endpoint = 'http://localhost:8000/';
 let socket = io.connect(endpoint);
 
 const App = () => {
